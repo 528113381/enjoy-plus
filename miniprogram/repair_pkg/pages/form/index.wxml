@@ -1,4 +1,5 @@
-<scroll-view enhanced show-scrollbar="{{false}}" scroll-y>
+<authorization>
+  <scroll-view enhanced show-scrollbar="{{false}}" scroll-y>
   <view class="form">
     <van-cell-group border="{{false}}" title="报修房屋">
       <van-cell value="请选择报修房屋" value-class="" bind:click="openHouseLayer" is-link border="{{false}}" />
@@ -69,3 +70,5 @@
 <van-popup bind:close="closeDateLayer" round show="{{ dateLayerVisible }}" position="bottom">
   <van-datetime-picker type="date" value="{{ currentDate }}" min-date="{{ 1664582400000 }}" />
 </van-popup>
+
+</authorization>
