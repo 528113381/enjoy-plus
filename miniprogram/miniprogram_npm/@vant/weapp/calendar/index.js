@@ -160,7 +160,7 @@ var getTime = function (date) {
             contentObserver.observe('.month', function (res) {
                 if (res.boundingClientRect.top <= res.relativeRect.top) {
                     // @ts-ignore
-                    _this.setData({ subtitle: (0, utils_1.formatMonthTitle)(res.dataset.date) });
+                    _this.setData({ subtitle: (0, utils_1.formatMonthTitle)(resset.date) });
                 }
             });
         },

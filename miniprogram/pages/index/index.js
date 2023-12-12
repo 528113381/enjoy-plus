@@ -8,7 +8,7 @@ Page({
   async getList() {
     const res = await wx.http.get('/announcement')
    this.setData({
-     list:res.data.data
+     list:res.data
    })
   }
 })

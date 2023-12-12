@@ -9,7 +9,7 @@ Page({
   async getDetail(id){
     const res = await wx.http.get(`/announcement/${id}`)
     this.setData({
-      detail:res.data.data
+      detail:res.data
     })
   }
 })

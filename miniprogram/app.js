@@ -14,6 +14,10 @@ App({
   // 全局appjs中数据存储在内存中,访问较快
   // 全局appjs结合本地存储一起使用存储token
   token:'',
+  userInfo:{
+    avatar:'',
+    nickName:''
+  },
   onLaunch(){
     this.getToken()
   },
