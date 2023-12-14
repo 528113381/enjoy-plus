@@ -1,66 +1,62 @@
-// house_pkg/pages/locate/index.ts
+// 导入腾讯地图 SDK 封装的工具 qqMap
+import qqMap from '../../../utils/qqmap'
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    address: '',
+    list:[]
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad() {
-
+    this.getMyLocation()
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  // 获取当前位置信息
+  async getMyLocation() {
+    // 使用小程序 API 获取当前位置的经纬度信息
+    const res = await wx.getLocation()
+    // 进行地址解析
+    this.transformAddress(res.latitude,res.longitude)
+    // 获取周边
+    this.getNearby(res.latitude,res.longitude)
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  // 选择位置信息的方法
+  async chooseMyLocation() {
+    const res = await wx.chooseLocation()
+    console.log(res, '1111');
+    this.setData({
+      address: res.address
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  // 逆地址解析
+  transformAddress(latitude,longitude) {
+    // 调用腾讯地图 SDK 提供的逆地址解析方法
+    qqMap.reverseGeocoder({
+      location: {
+        latitude: latitude,
+        longitude: longitude
+      },
+      // 逆地址解析成功的回调函数
+      success: (res) => {
+        // 输出解析得到的位置信息
+        this.setData({
+          address: res.result.address
+        })
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+  //获取周边信息
+  getNearby(latitude,longitude){
+    qqMap.search({
+      keyword: '足浴',
+      location: [latitude,longitude].join(','),
+      success:(res)=> {
+        console.log(2222, res);
+        const tmp = res.data.map(item =>({
+          id: item.id,
+          title:item.title
+        }))
+        this.setData({
+          list:tmp
+        })
+      }
+    })
+  } 
 })

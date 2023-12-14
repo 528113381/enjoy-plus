@@ -9,7 +9,7 @@ Page({
       url: '/pages/login/index',
     })
   },
-  onLoad(){
+  onShow(){
     this.getProfile()
   },
   // 获取用户信息

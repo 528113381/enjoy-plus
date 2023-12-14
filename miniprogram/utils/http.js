@@ -10,12 +10,34 @@ http.intercept.request = function(options){
   if(getApp().token){
     defaultOptions.Authorization = getApp().token
   }
+  // 如果有有options.header就将默认值合并覆盖
   options.header = Object.assign({},defaultOptions,options.header)
+  console.log(options);
   return options
 }
 //响应拦截器
-http.intercept.response = function(res){
-  return res.data
+http.intercept.response = async function(res){
+  // token失效,利用refreshToken去获取新token
+  if(res.data.code === 401){
+    if(res.config.url.includes('/refreshToken')){
+      wx.navigateTo({
+        url: '/pages/login/index',
+      })
+      return
+    }
+    const app = getApp()
+    const res1 = await http({
+      url:'/refreshToken',
+      method:'POST',
+      header:{
+        Authorization:app.refreshToken
+      }
+    })
+    console.log('刷新');
+    getApp().setToken(res1.data.token,res1.data.refreshToken)
+    http(Object.assign(res.config,{header:{Authorization:getApp().token}}))
+  }
+   return res.data
 }
 
 // 挂载到全局对象

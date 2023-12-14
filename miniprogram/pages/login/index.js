@@ -20,12 +20,7 @@ Page({
       wx.utils.toast(res.message || '登录请求失败')
       return
     }
-    // 存储token
-    getApp().token = 'Bearer ' + res.data.token
-    wx.setStorage({
-      key: 'token',
-      data: 'Bearer ' + res.data.token
-    })
+    getApp().setToken(res.data.token,res.data.refreshToken)
     // 点击登录按钮后跳转回之前页面
     wx.navigateTo({
       url: this.route,
