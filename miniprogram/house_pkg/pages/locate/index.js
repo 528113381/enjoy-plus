@@ -24,6 +24,7 @@ Page({
     this.setData({
       address: res.address
     })
+    this.getNearby(res.latitude,res.longitude)
   },
   // 逆地址解析
   transformAddress(latitude,longitude) {
@@ -45,7 +46,7 @@ Page({
   //获取周边信息
   getNearby(latitude,longitude){
     qqMap.search({
-      keyword: '足浴',
+      keyword: '小区',
       location: [latitude,longitude].join(','),
       success:(res)=> {
         console.log(2222, res);

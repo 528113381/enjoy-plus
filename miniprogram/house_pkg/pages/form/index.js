@@ -1,9 +1,19 @@
 // \u4e00-\u9fa5] 中文验证规则
-
 Page({
   data: {
     idcardFrontUrl: '/static/images/avatar_1.jpg',
     idcardBackUrl: '/static/images/avatar_2.jpg',
+    point:'',
+    building:'',
+    room:'',
+  },
+  onLoad({point,room,building}){
+    console.log(point,room,building);
+    this.setData({
+      point,
+      building,
+      room
+    })
   },
   goList() {
     wx.reLaunch({
