@@ -1,5 +1,6 @@
 let secret_code = ''
 Page({
+  route:'',
   data: {
     countDownVisible: false,
     mobile: '',
@@ -7,6 +8,11 @@ Page({
   },
   onLoad(options) {
     // 获取传递来的路由路径
+    console.log(options);
+    if(!options.route){
+      this.route = '/pages/index/index'
+      return
+    }
     this.route = options.route
   },
   // 登录操作
@@ -22,7 +28,7 @@ Page({
     }
     getApp().setToken(res.data.token,res.data.refreshToken)
     // 点击登录按钮后跳转回之前页面
-    wx.navigateTo({
+    wx.reLaunch({
       url: this.route,
     })
   },

@@ -10,6 +10,8 @@ import './utils/index'
 // 导入 http请求包
 import './utils/http'
 
+import dayjs from 'dayjs'
+
 App({
   // 全局appjs中数据存储在内存中,访问较快
   // 全局appjs结合本地存储一起使用存储token
@@ -19,6 +21,7 @@ App({
     avatar:'',
     nickName:''
   },
+  dayjs,
   onLaunch(){
     this.getToken()
   },

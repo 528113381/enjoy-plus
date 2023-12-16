@@ -1,20 +1,59 @@
 Page({
   data: {
     currentDate: new Date().getTime(),
+    minDate: new Date().getTime(),
     houseLayerVisible: false,
     repairLayerVisible: false,
     dateLayerVisible: false,
-    houseList: [
-      { name: '北京西三旗花园1号楼 101' },
-      { name: '北京东村家园3号楼 302' },
-      { name: '北京育新花园3号楼 703' },
-      { name: '北京天通苑北苑8号楼 403' },
-    ],
-    repairItem: [{ name: '水路卫浴' }, { name: '电路灯具' }, { name: '管道疏通' }, { name: '开锁换锁' }],
+    houseList: [],
+    houseItem: {},
+    repairList: [],
+    repairItem: {},
+    mobile: '',
+    appointment: '', // 2022-10-01
     attachment: [
       { url: '/repair_pkg/static/uploads/attachment.jpg' },
       { url: '/repair_pkg/static/uploads/attachment.jpg' },
     ],
+  },
+  onLoad() {
+    this.getHouse()
+    this.getRepaireList()
+  },
+  async getHouse() {
+    const res = await wx.http.get('/room')
+    const houseList = res.data.map(item => {
+      return { id: item.id, name: item.point}
+    })
+    this.setData({
+      houseList
+    })
+  },
+  houseSelect(e) {
+    this.setData({
+      houseItem: e.detail
+    })
+  },
+  // 维修项目的两个
+  async getRepaireList() {
+    const res = await wx.http.get('/repairItem')
+    this.setData({
+      repairList: res.data
+    })
+  },
+  repaireSelect(e) {
+    this.setData({
+      repairItem: e.detail
+    })
+  },
+  // 时间选择的函数
+  datetimeConfirm(e) {
+    console.log(e.detail);
+    this.setData({
+      appointment: getApp().dayjs(e.detail).format('YYYY-MM-DD'),
+      currentDate: e.detail,
+      dateLayerVisible: false
+    })
   },
   openHouseLayer() {
     this.setData({ houseLayerVisible: true })

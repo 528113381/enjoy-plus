@@ -1,69 +1,24 @@
 <authorization>
-  <block wx:if="{{true}}">
+  <block wx:if="{{list.length > 0}}">
     <scroll-view show-scrollbar="{{false}}" enhanced scroll-y>
       <view class="houses">
         <view class="houses-title">房屋信息</view>
         <view class="houses-list">
-          <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-            <van-cell-group bind:tap="goDetail" border="{{false}}">
-              <van-cell size="large" title="北京富力桃园">
-                <text class="tag success">审核通过</text>
+          <van-swipe-cell wx:for="{{list}}" wx:key="id" async-close bind:close="swipeClose" mark:id="{{item.id}}" right-width="{{ 70 }}">
+            <van-cell-group bind:tap="goDetail" data-id="{{item.id}}" mark:aaa="{{item.id}}" border="{{false}}">
+              <van-cell size="large" title="{{item.point}}" >
+                <text class="tag info" wx:if="{{item.status === 1}}">正在审核</text>
+                <text class="tag success" wx:if="{{item.status === 2}}">审核通过</text>
+                <text class="tag fail" wx:if="{{item.status === 3}}">审核失败</text>
               </van-cell>
-              <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-              <van-cell title="业主" border="{{false}}" value="姜晓峰" />
+              <van-cell title="房间号" border="{{false}}" value="{{item.building}}号楼{{item.room}}室" />
+              <van-cell title="业主" border="{{false}}" value="{{item.name}}" />
             </van-cell-group>
             <view slot="right">
               删除
             </view>
           </van-swipe-cell>
-          <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-            <van-cell-group bind:tap="goDetail" border="{{false}}">
-              <van-cell size="large" title="北京富力桃园">
-                <text class="tag info">正在审核</text>
-              </van-cell>
-              <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-              <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-            </van-cell-group>
-            <view slot="right">
-              删除
-            </view>
-          </van-swipe-cell>
-          <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-            <van-cell-group bind:tap="goDetail" border="{{false}}">
-              <van-cell size="large" title="北京富力桃园">
-                <text class="tag fail">审核失败</text>
-              </van-cell>
-              <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-              <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-            </van-cell-group>
-            <view slot="right">
-              删除
-            </view>
-          </van-swipe-cell>
-          <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-            <van-cell-group bind:tap="goDetail" border="{{false}}">
-              <van-cell size="large" title="北京富力桃园">
-                <text class="tag fail">审核失败</text>
-              </van-cell>
-              <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-              <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-            </van-cell-group>
-            <view slot="right">
-              删除
-            </view>
-          </van-swipe-cell>
-          <van-swipe-cell async-close bind:close="swipeClose" right-width="{{ 70 }}">
-            <van-cell-group bind:tap="goDetail" border="{{false}}">
-              <van-cell size="large" title="北京富力桃园">
-                <text class="tag info">正在审核</text>
-              </van-cell>
-              <van-cell title="房间号" border="{{false}}" value="1号楼1单元101室" />
-              <van-cell title="业主" border="{{false}}" value="姜晓峰" />
-            </van-cell-group>
-            <view slot="right">
-              删除
-            </view>
-          </van-swipe-cell>
+
         </view>
       </view>
     </scroll-view>
@@ -79,5 +34,12 @@
     <navigator hover-class="none" class="link" url="/house_pkg/pages/locate/index">添加</navigator>
   </view>
 
-  <van-dialog message="是否删除已绑定房屋？" showCancelButton show="{{dialogVisible}}" cancel-button-color="#848484" confirm-button-color="#5591af" bind:close="dialogClose" />
+  <van-dialog 
+  message="是否删除已绑定房屋？" 
+  showCancelButton show="{{dialogVisible}}" 
+  cancel-button-color="#848484" 
+  confirm-button-color="#ff0000"
+    confirm-button-text="删除"
+    bind:close="dialogClose"
+    bind:confirm="delHouse" />
 </authorization>

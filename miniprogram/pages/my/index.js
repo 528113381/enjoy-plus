@@ -10,7 +10,12 @@ Page({
     })
   },
   onShow(){
-    this.getProfile()
+      this.getProfile()
+      if(this.data.avatar === ''){
+        setTimeout(()=>{
+          this.getProfile()
+        },1000)
+      }
   },
   // 获取用户信息
   async getProfile(){
